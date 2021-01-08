@@ -32,7 +32,7 @@ async def cooldown(context, member: discord.Member = 0):
     if current_hour > 12:
         current_hour -= 12
         am = False
-    current_hour += 8
+    current_hour += 1
     if not am:
         tod = 'PM'
     else:
