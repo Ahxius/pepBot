@@ -12,7 +12,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 COOKIE = os.getenv('ROBLOX_COOKIE')
 
-client = Bot(command_prefix='!')
+client = Bot(command_prefix='$')
 
 for cog in os.listdir('modules'):
     if not cog.endswith('.py'):
