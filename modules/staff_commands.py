@@ -1,7 +1,14 @@
 from discord.ext import commands
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import discord
 import asyncio
+import robloxapi
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+COOKIE = os.getenv('ROBLOX_COOKIE')
+roblox_client = robloxapi.Client(COOKIE)
 
 
 class staff_commands(commands.Cog):
@@ -10,7 +17,12 @@ class staff_commands(commands.Cog):
 
     @commands.command(name="cooldown", aliases=['cd'])
     async def cooldown(self, context, member: discord.Member = 0):
-        print(member.created_at)
+        member_roles = context.author.roles
+        pep_server = self.client.get_guild(481530361650741249)  # should = pep guild id
+        role_object = pep_server.get_role(661426538943610880)  # should = evaluator id
+        if role_object not in member_roles:
+            await context.send(f'This command requires the ``Evaluator`` role to be used.')
+            return
         if member == 0:
             await context.send(f'{context.author.mention} Command syntax: `$cooldown <@member>`')
             return
@@ -51,10 +63,6 @@ class staff_commands(commands.Cog):
         embed.add_field(name='Evaluator', value=f'{author_name}', inline=True)
         embed.add_field(name='Attendee', value=f'{member_name}', inline=True)
         await channel.send(embed=embed)
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        print(member.created_at)  # in progress
 
 
 def setup(client):
