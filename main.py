@@ -5,9 +5,12 @@ from discord.ext.commands import Bot
 import asyncio
 from datetime import datetime
 from discord.ext import commands
+import robloxapi
+import sys
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+COOKIE = os.getenv('ROBLOX_COOKIE')
 
 client = Bot(command_prefix='!')
 
@@ -25,6 +28,13 @@ for cog in os.listdir('modules'):
 @client.event
 async def on_ready():
     print(f'Login successful; {client.user}')
+
+
+@client.command(name='shutdown')
+@commands.is_owner()
+async def shutdown(context):
+    await context.message.add_reaction(client.check)
+    sys.exit()
 
 
 client.run(TOKEN)
